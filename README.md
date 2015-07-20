@@ -8,7 +8,7 @@ If you want to develop, we recommend setting up a Python environment with [Anaco
 
 ## Running
 
-To run this image, if you are new to Docker, follow these instructions to get set up on (on OS X):
+To run the image on OS X follow these instructions:
 
 - Download and install [boot2docker](https://github.com/boot2docker/osx-installer/releases/tag/v1.7.1)
 
