@@ -4,7 +4,7 @@ This repo contains a Dockerfile and example notebooks for trying [Bolt](http://n
 
 If you want to explore this environment interactively, we recommend using the [notebook](http://notebooks.codeneuro.org) service hosted by CodeNeuro.
 
-If you want to develop locally, we recommend setting up a Python environment with [Anaconda](https://store.continuum.io/cshop/anaconda/) (see the [Bolt](http://bolt-project.org) documentation for more information).
+If you want to develop, we recommend setting up a Python environment with [Anaconda](https://store.continuum.io/cshop/anaconda/) and installing a local version of Bolt (see the [Bolt](http://bolt-project.org) documentation for more information).
 
 ## Running
 
