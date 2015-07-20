@@ -1,6 +1,6 @@
 # Bolt Docker image
 
-This repo contains a Dockerfile and example notebooks for trying Bolt [Neurofinder](http://neurofinder.codeneuro.org), including the Spark backend.
+This repo contains a Dockerfile and example notebooks for trying [Bolt](http://neurofinder.codeneuro.org), including the Spark backend.
 
 If you want to explore this environment interactively, we recommend using the [notebook](http://notebooks.codeneuro.org) service hosted by CodeNeuro.
 
