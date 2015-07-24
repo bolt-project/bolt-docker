@@ -82,4 +82,5 @@ ENV PYSPARK_PYTHON=/opt/conda/bin/python
 ENV PYSPARK_DRIVER_PYTHON=/opt/conda/bin/python
 ENV IPYTHON 1
 ENV IPYTHON_OPTS "notebook --ip=0.0.0.0"
+
 CMD ['/bin/bash','-c','pyspark']
