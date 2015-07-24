@@ -5,25 +5,28 @@ FROM debian:jessie
 MAINTAINER freemanlab <the.freeman.lab@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
-
-RUN apt-get update && apt-get install -y git vim wget build-essential python-dev ca-certificates bzip2 libsm6 && apt-get clean
-
 ENV CONDA_DIR /opt/conda
 
-# Install conda for the codeneuro user only (this is a single user container)
+# Core installs
+RUN apt-get update && \
+    apt-get install -y git vim wget build-essential python-dev ca-certificates bzip2 libsm6 && \
+    apt-get clean
+
+# Install conda
 RUN echo 'export PATH=$CONDA_DIR/bin:$PATH' > /etc/profile.d/conda.sh && \
     wget --quiet https://repo.continuum.io/miniconda/Miniconda3-3.9.1-Linux-x86_64.sh && \
     /bin/bash /Miniconda3-3.9.1-Linux-x86_64.sh -b -p $CONDA_DIR && \
     rm Miniconda3-3.9.1-Linux-x86_64.sh && \
     $CONDA_DIR/bin/conda install --yes conda==3.10.1
 
-# We run our docker images with a non-root user as a security precaution.
-# freemanlab is our user
+# Create a user
 RUN useradd -m -s /bin/bash freemanlab
 RUN chown -R freemanlab:freemanlab $CONDA_DIR
 
+# Open port
 EXPOSE 8888
 
+# Env vars
 USER freemanlab
 ENV HOME /home/freemanlab
 ENV SHELL /bin/bash
@@ -31,14 +34,12 @@ ENV USER freemanlab
 ENV PATH $CONDA_DIR/bin:$PATH
 WORKDIR $HOME
 
+# Setup ipython
 RUN conda install --yes ipython-notebook terminado && conda clean -yt
-
 RUN ipython profile create
 
-# Workaround for issue with ADD permissions
+# Switch to root for permissions
 USER root
-
-RUN apt-get update
 
 # Java setup
 RUN apt-get install -y default-jre
@@ -72,14 +73,18 @@ ADD notebooks $HOME/notebooks
 # Set up the kernelspec
 RUN /opt/conda/envs/python3.4-env/bin/ipython kernelspec install-self
 
+# Set permissions on the notebooks
 RUN chown -R freemanlab:freemanlab $HOME/notebooks
 
+# Switch back to non-root user
 USER freemanlab
 
 WORKDIR $HOME/notebooks
 
+# Setup Spark + IPython env vars
 ENV PYSPARK_PYTHON=/opt/conda/bin/python
 ENV PYSPARK_DRIVER_PYTHON=/opt/conda/bin/python
 ENV IPYTHON 1
 ENV IPYTHON_OPTS "notebook --ip=0.0.0.0"
+
 CMD /bin/bash -c pyspark
